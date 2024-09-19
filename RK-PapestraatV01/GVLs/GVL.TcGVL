@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <GVL Name="GVL" Id="{8c9ef2e3-2b5a-41a4-b0e2-dc7433c8cc90}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	I_Input00		AT %I* :BOOL; // Thermostaat Bureau
+	I_Input01		AT %I* :BOOL; // Ingang Bureau
+	I_Input02		AT %I* :BOOL; // ingang Lesruimte Rechts
+	I_Input03		AT %I* :BOOL; // ingang Lesruimte Links
+	I_Input04		AT %I* :BOOL; // Voorbereiding knop uitgang
+	I_Input05		AT %I* :BOOL; // Gang GarageZijde
+	I_Input06		AT %I* :BOOL; // Knop Aan Trap (nog te ontdubbelen
+	I_Input07		AT %I* :BOOL; // Thermostaat lesruimte
+	I_Input08		AT %I* :BOOL; // lesruimte naar garage
+	I_Input09		AT %I* :BOOL; // WC midden
+	I_Input10		AT %I* :BOOL; // WC naast Tech
+	I_Input11		AT %I* :BOOL; // Gang 1
+	I_Input12		AT %I* :BOOL; // Gang 2
+	I_Input13		AT %I* :BOOL; // Grote WC
+	I_Input14		AT %I* :BOOL; // Tech Ruimte 
+	I_Input15		AT %I* :BOOL; // opleidingslokaal rechts voorraan
+
+	I_Input16		AT %I* :BOOL; // Lesruimte naar buiten
+	I_Input17		AT %I* :BOOL; // AllesUitVoordeur
+	I_Input18		AT %I* :BOOL; // 2de schakelaar opleidinslokaal deur naar berging
+	I_Input19		AT %I* :BOOL; // Grime Grote WC
+	I_Input20		AT %I* :BOOL; // Thermostaat vergader 
+	I_Input21		AT %I* :BOOL; // c vergaderzaal
+	I_Input22		AT %I* :BOOL; // Vergaderzaal DeurNaarBuiten 
+	I_Input23		AT %I* :BOOL; // X Keuken
+	I_Input24		AT %I* :BOOL; // Alles Uit 
+	I_Input25		AT %I* :BOOL; // Garagezonder Deur Onderlinks
+	I_Input26		AT %I* :BOOL; // Garagezonder Deur OnderRechts
+	I_Input27		AT %I* :BOOL; // Poort 2 DeurDicht
+	I_Input28		AT %I* :BOOL; // Poort 2 DeurOpen (Niet gebruikt)
+	I_Input29		AT %I* :BOOL; // Poort 1 DeurDicht 
+	I_Input30		AT %I* :BOOL; // Poort 1 DeurOpen (Niet Gebruikt)
+	I_Input31		AT %I* :BOOL; // I ( opleiding deur naar buiten
+
+	I_Input32		AT %I* :BOOL; // Garage drukknop
+	I_Input33		AT %I* :BOOL; // Garage Drukknop2
+	I_Input34		AT %I* :BOOL; // Verdieping 1 druknop 2
+	I_Input35		AT %I* :BOOL; // AllesUit
+	I_Input36		AT %I* :BOOL; // 
+	I_Input37		AT %I* :BOOL;
+	I_Input38		AT %I* :BOOL;
+	I_Input39		AT %I* :BOOL;
+	
+//output values
+	Q_Light00		AT %Q* :BOOL;	// Groot WC
+	Q_Light01		AT %Q* :BOOL;	// Midden WC
+	Q_Light02		AT %Q* :BOOL;   // Keuken
+	Q_Light03		AT %Q* :BOOL;	// Buitenlicht achter
+	Q_Light04		AT %Q* :BOOL;	// WC naast Tech Ruimte 
+	Q_Light05		AT %Q* :BOOL;  	// vergaderzaal
+	Q_Light06		AT %Q* :BOOL;  	// bureau
+	Q_Light07		AT %Q* :BOOL;  	// Lesruimte deel 1
+	Q_Light08		AT %Q* :BOOL;  	// Garage Deur	
+	Q_Light09		AT %Q* :BOOL;	// Garage enkel poort
+	Q_Light10		AT %Q* :BOOL; 	// Verdiep 1 trap
+	Q_Light11		AT %Q* :BOOL; 	// verdiep 1 ver
+	Q_Light12		AT %Q* :BOOL;	// Berg Ruimte 
+	Q_Light13		AT %Q* :BOOL;	// Gang Deel 2
+	Q_Light14		AT %Q* :BOOL;	// GrimeLicht grote WC
+	Q_Light15		AT %Q* :BOOL;	// Tech Ruimte
+	
+	Q_Light16		AT %Q* :BOOL;	// IndicatieLicht DeurGarage
+	Q_Light17		AT %Q* :BOOL; 	// Lesruimte Deel 2
+	Q_Light18		AT %Q* :BOOL; 	//
+	Q_Light19		AT %Q* :BOOL;	// Lichtje GarageZonderDeur
+	Q_Light20		AT %Q* :BOOL;	// Verwarming 1
+	Q_Light21		AT %Q* :BOOL;	// Verwarming 2
+	Q_Light22		AT %Q* :BOOL;	// Verwarming 3
+	Q_Light23		AT %Q* :BOOL;	// Verwarming 4 
+	
+// placeholder values
+	I_Inputxx		AT %I* :BOOL;
+	Q_LightXX		AT %Q* :BOOL;
+	
+	//I_Temp01		AT %I* :BOOL;
+	//I_Temp02		AT %I* :BOOL;
+	//I_Temp03		AT %I* :BOOL;
+	//I_Temp04		AT %I* :BOOL;
+
+	
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="fbLightControl_ButtonAndDetect" Id="{4ce95e57-7aca-434a-866b-1258781c6cb7}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK fbLightControl_ButtonAndDetect
+		
+VAR_INPUT
+	bButton				: BOOL;
+	bDeurDetectie		: BOOL;
+	bForceOff			: BOOL;
+	bForceOn			: BOOL;
+	bDetection			: BOOL;
+	bInhibit			:BOOL;
+	
+	tInhibitTime		:TIME := T#60s;
+    tDeurOpenTime		:TIME := T#10m;
+END_VAR
+VAR_OUTPUT
+	bLight				: BOOL;
+	
+END_VAR
+VAR
+	InputTrigger		: R_trig; 
+	TimerInhibit		: TOF; 
+	TimerDeurdetectie	: TOF;
+	bInternLichtVarKnop : BOOL;
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// This is the first version, ignoring all debounce timers and other issues 
+// Base function is a to allow switching a light on and of and having a general reset and general on ( used for construcion)
+
+InputTrigger(CLK :=  bButton);
+
+IF InputTrigger.Q THEN
+	
+	bInternLichtVarKnop := NOT(bInternLichtVarKnop);
+
+END_IF
+
+// Dit onderdeel triggert als de deur opent en blijft de ingestelde tijd lopen na het sleuiten
+TimerDeurdetectie(In := bDeurDetectie, PT:= tDeurOpenTime);
+
+// Deze functie zorgt voor alles aan/Uit Functionaliteit
+IF bForceOff THEN
+	bInternLichtVarKnop := FALSE;
+END_IF
+
+IF bForceOn THEN
+	bInternLichtVarKnop := TRUE;
+END_IF
+
+// Connection to the detector unit in combination with inhibitor logic
+
+TimerInhibit(IN:= bInhibit, PT:= tInhibitTime );
+
+bLight :=  bInternLichtVarKnop OR ( (bDetection OR TimerDeurdetectie.Q) AND NOT(TimerInhibit.Q)) ;
+
+
+
+
+(*function notes: long klick functionality not added, most likley this will be part of another function
+This could be a dedicated filter function linked to these functions as needed
+*)]]></ST>
+    </Implementation>
+    <LineIds Name="fbLightControl_ButtonAndDetect">
+      <LineId Id="9" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="23" Count="2" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="157" Count="0" />
+      <LineId Id="156" Count="0" />
+      <LineId Id="154" Count="0" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="55" Count="0" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="56" Count="1" />
+      <LineId Id="59" Count="2" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="122" Count="0" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="125" Count="0" />
+      <LineId Id="129" Count="0" />
+      <LineId Id="126" Count="0" />
+      <LineId Id="123" Count="0" />
+      <LineId Id="128" Count="0" />
+      <LineId Id="127" Count="0" />
+      <LineId Id="121" Count="0" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="49" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

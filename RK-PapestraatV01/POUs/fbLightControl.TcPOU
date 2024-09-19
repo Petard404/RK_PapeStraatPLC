@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="fbLightControl" Id="{7f5342f2-aa10-4900-98e2-28409aed465b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK fbLightControl
+		
+VAR_INPUT
+	bButton				: BOOL;
+	bForceOff			: BOOL;
+	bForceOn			: BOOL;
+
+END_VAR
+VAR_OUTPUT
+	bLight				: BOOL;
+	
+END_VAR
+VAR
+	InputTrigger		: R_trig; 
+
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// This is the first version, ignoring all debounce timers and other issues 
+// Base function is a to allow switching a light on and of and having a general reset and general on ( used for construcion)
+
+InputTrigger(CLK :=  bButton);
+
+IF InputTrigger.Q THEN
+	
+	bLight := NOT(bLight);
+
+END_IF
+
+// Deze functie zorgt voor alles aan/Uit Functionaliteit
+IF bForceOff THEN
+	bLight := FALSE;
+END_IF
+
+IF bForceOn THEN
+	bLight := TRUE;
+END_IF
+
+(*function notes: long klick functionality not added, most likley this will be part of another function
+This could be a dedicated filter function linked to these functions as needed
+*)]]></ST>
+    </Implementation>
+    <LineIds Name="fbLightControl">
+      <LineId Id="9" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="23" Count="2" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="55" Count="0" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="56" Count="1" />
+      <LineId Id="59" Count="2" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="49" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

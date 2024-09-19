@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="MAIN" Id="{644e9ade-a57c-45cf-ab42-b4c8dbcedaa1}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	cnt			: UINT;
+	
+	fbLight00		: fbLightControl;
+	fbLight01		: fbLightControl;
+	fbLight02		: fbLightControl;
+	fbLight03		: fbLightControl;
+	fbLight04		: fbLightControl;
+	fbLight05		: fbLightControl; // testje
+	fbLight06		: fbLightControl;
+	fbLight07		: fbLightControlV2;
+	fbLight08		: fbLightControl_ButtonAndDetect;
+	fbLight09		: fbLightControl;
+	fbLight10		: fbLightControl;
+	fbLight11		: fbLightControl;
+	fbLight12		: fbLightControl;
+	fbLight13		: fbLightControl;
+	fbLight14		: fbLightControl;
+//	fbLight15		: fbLightControl;
+	
+	bOutputActief	: BOOL;
+	
+	bForceOff		:BOOL;
+	bForceOn		:BOOL;
+	
+	InputTriggerAllesUit		: R_trig; 
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[ cnt := cnt +1;
+
+
+
+InputTriggerAllesUit(CLK := GVL.I_Input35 OR GVL.I_Input24 OR gvl.I_Input17);
+	
+// Actual light control
+
+fbLight00(bButton:= GVL.I_Input32 , 
+			bForceOff:= InputTriggerAllesUit.Q, 
+			bForceOn:= , 
+			bLight=> gvl.Q_Light07,
+			bLight=> gvl.Q_Light04,
+			);
+// Grote WC hoofdlicht
+
+GVL.Q_Light01 := GVL.I_Input09; //midden WC
+GVL.Q_Light00 := GVL.I_Input13; // Grote WC 
+GVL.Q_Light04 := GVL.I_Input10;// WC naast tech
+GVL.Q_Light15 := GVL.I_Input14; // tech ruimte
+GVL.Q_Light12 := GVL.I_Input08;// BergRuimte =Detector
+GVL.Q_Light13 := GVL.I_Input11 OR GVL.I_Input12;// Gang deel2 detector
+
+
+//verlichting Bureau
+		
+
+
+		
+
+		
+		// Licht Keuken
+fbLight02(bButton:= GVL.I_Input03 OR GVL.I_Input23 ,  // check other button 
+			bForceOff:= InputTriggerAllesUit.Q, 
+			bForceOn:= , 
+			bLight=> gvl.Q_Light02,
+		);
+		
+// Licht Buiten	
+fbLight03(bButton:= GVL.I_Input04 OR GVL.I_Input31 OR GVL.I_Input22, 
+			bForceOff:= InputTriggerAllesUit.Q, 
+			bForceOn:= , 
+			bLight=> gvl.Q_Light03,
+		);
+		
+// 	vergaderzaal
+
+fbLight05(bButton:= GVL.I_Input21, 
+			bForceOff:= InputTriggerAllesUit.Q, 
+			bForceOn:= , 
+			bLight=> gvl.Q_Light05
+		);	
+// Bureau
+
+fbLight06(bButton:= GVL.I_Input01,
+			bForceOff:= InputTriggerAllesUit.Q, 
+			bForceOn:= , 
+			
+			bLight=> gvl.Q_Light06
+		);	
+// Lesruimte 	
+fbLight07(bButtonhoofdFunctie:= GVL.I_Input02 OR GVL.I_Input15 ,
+			bButton2 := GVL.I_Input18 OR GVL.I_Input16, // 16 should move to outside
+			bForceOff:= InputTriggerAllesUit.Q, 
+			bForceOn:= , 
+			bLight1=> gvl.Q_Light07,
+			bLight2=> gvl.Q_Light17
+		);	
+// Garage 	
+fbLight08(bButton:= GVL.I_Input33 OR GVL.I_Input05 OR GVL.I_Input32 OR GVL.I_Input26,
+			bDetection := GVL.I_Input37  ,
+			bDeurDetectie :=  NOT(GVL.I_Input29) OR NOT(GVL.I_Input27),
+			bForceOff:= InputTriggerAllesUit.Q, 
+			bForceOn:= , 
+			bInhibit:= InputTriggerAllesUit.Q, 
+			bLight=> gvl.Q_Light08,
+			bLight=> gvl.Q_Light09,
+		);
+// Deze knop laat toe om de detectie over te nemen 
+// Logica nog te verbeteren met de alles uit samen te werken
+
+
+(*TODO: remove after logic validation
+gvl.Q_Light08 := gvl.Q_Light08 OR GVL.I_Input37;
+gvl.Q_Light09 := gvl.Q_Light09 OR GVL.I_Input37;*)
+
+// zaal boven
+fbLight10(bButton:= GVL.I_Input34 OR GVL.I_Input06 OR GVL.I_Input25, 
+			bForceOff:= InputTriggerAllesUit.Q, 
+			bForceOn:= , 
+			bLight=> gvl.Q_Light10,
+			bLight=> gvl.Q_Light11
+			);
+
+// GrimeLicht Grote WC
+fbLight14(bButton:= GVL.I_Input19 , 
+			bForceOff:= InputTriggerAllesUit.Q, 
+			bForceOn:= , 
+			bLight=> gvl.Q_Light14
+		);	
+
+		
+bOutputActief := fbLight00.bLight
+				OR fbLight01.bLight
+				OR fbLight02.bLight
+				OR fbLight03.bLight
+				OR fbLight04.bLight
+				OR fbLight05.bLight
+				OR fbLight06.bLight
+				OR fbLight07.bLight1 OR fbLight07.bLight2
+				OR fbLight08.bLight
+				OR fbLight09.bLight
+				OR fbLight10.bLight
+				OR fbLight11.bLight
+				OR fbLight12.bLight
+				OR fbLight13.bLight
+				OR fbLight14.bLight;
+
+GVL.Q_Light16 :=  bOutputActief;				
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="2" Count="0" />
+      <LineId Id="116" Count="0" />
+      <LineId Id="544" Count="0" />
+      <LineId Id="626" Count="0" />
+      <LineId Id="565" Count="0" />
+      <LineId Id="567" Count="0" />
+      <LineId Id="140" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="244" Count="1" />
+      <LineId Id="218" Count="0" />
+      <LineId Id="217" Count="0" />
+      <LineId Id="430" Count="0" />
+      <LineId Id="429" Count="0" />
+      <LineId Id="431" Count="0" />
+      <LineId Id="433" Count="0" />
+      <LineId Id="436" Count="0" />
+      <LineId Id="448" Count="0" />
+      <LineId Id="451" Count="0" />
+      <LineId Id="438" Count="0" />
+      <LineId Id="432" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="494" Count="0" />
+      <LineId Id="486" Count="0" />
+      <LineId Id="501" Count="0" />
+      <LineId Id="495" Count="0" />
+      <LineId Id="479" Count="4" />
+      <LineId Id="195" Count="0" />
+      <LineId Id="485" Count="0" />
+      <LineId Id="203" Count="0" />
+      <LineId Id="205" Count="2" />
+      <LineId Id="250" Count="0" />
+      <LineId Id="204" Count="0" />
+      <LineId Id="310" Count="0" />
+      <LineId Id="326" Count="0" />
+      <LineId Id="416" Count="0" />
+      <LineId Id="327" Count="4" />
+      <LineId Id="396" Count="0" />
+      <LineId Id="692" Count="0" />
+      <LineId Id="332" Count="2" />
+      <LineId Id="693" Count="0" />
+      <LineId Id="335" Count="1" />
+      <LineId Id="397" Count="0" />
+      <LineId Id="337" Count="0" />
+      <LineId Id="623" Count="0" />
+      <LineId Id="338" Count="2" />
+      <LineId Id="595" Count="0" />
+      <LineId Id="341" Count="0" />
+      <LineId Id="398" Count="0" />
+      <LineId Id="502" Count="0" />
+      <LineId Id="662" Count="0" />
+      <LineId Id="723" Count="0" />
+      <LineId Id="503" Count="1" />
+      <LineId Id="661" Count="0" />
+      <LineId Id="505" Count="1" />
+      <LineId Id="346" Count="0" />
+      <LineId Id="508" Count="0" />
+      <LineId Id="657" Count="0" />
+      <LineId Id="659" Count="0" />
+      <LineId Id="658" Count="0" />
+      <LineId Id="656" Count="0" />
+      <LineId Id="660" Count="0" />
+      <LineId Id="515" Count="0" />
+      <LineId Id="663" Count="0" />
+      <LineId Id="400" Count="0" />
+      <LineId Id="509" Count="3" />
+      <LineId Id="401" Count="0" />
+      <LineId Id="514" Count="0" />
+      <LineId Id="371" Count="0" />
+      <LineId Id="428" Count="0" />
+      <LineId Id="372" Count="4" />
+      <LineId Id="664" Count="0" />
+      <LineId Id="114" Count="0" />
+      <LineId Id="665" Count="0" />
+      <LineId Id="669" Count="2" />
+      <LineId Id="674" Count="10" />
+      <LineId Id="691" Count="0" />
+      <LineId Id="690" Count="0" />
+      <LineId Id="689" Count="0" />
+      <LineId Id="668" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
