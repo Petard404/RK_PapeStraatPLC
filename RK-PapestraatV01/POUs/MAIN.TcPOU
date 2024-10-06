@@ -29,6 +29,7 @@ VAR
 	
 	InputTriggerAllesUit		: R_trig; 
 	
+	LesruimteLichtAan: INT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -152,6 +153,13 @@ bOutputActief := fbLight00.bLight
 
 GVL.Q_Light16 :=  bOutputActief;				
 
+// Activeer Verwarming
+
+	GVL.LesruimteLichtAan := gvl.Q_Light07 OR gvl.Q_Light17 OR gvl.Q_Light02;
+	GVL.BureauLichtAan	  := gvl.Q_Light06 ;
+	GVL.Vergaderzaal	  := gvl.Q_Light05 ;
+
+SturingVerwarming();
 ]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
@@ -239,6 +247,12 @@ GVL.Q_Light16 :=  bOutputActief;
       <LineId Id="690" Count="0" />
       <LineId Id="689" Count="0" />
       <LineId Id="668" Count="0" />
+      <LineId Id="785" Count="0" />
+      <LineId Id="787" Count="1" />
+      <LineId Id="786" Count="0" />
+      <LineId Id="754" Count="0" />
+      <LineId Id="753" Count="0" />
+      <LineId Id="755" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

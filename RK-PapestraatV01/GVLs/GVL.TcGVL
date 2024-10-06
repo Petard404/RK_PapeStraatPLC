@@ -73,6 +73,11 @@ VAR_GLOBAL
 	Q_Light22		AT %Q* :BOOL;	// Verwarming 3
 	Q_Light23		AT %Q* :BOOL;	// Verwarming 4 
 	
+	
+	LesruimteLichtAan		:BOOL;
+	BureauLichtAan			:BOOL;
+	Vergaderzaal			:BOOL;
+	
 // placeholder values
 	I_Inputxx		AT %I* :BOOL;
 	Q_LightXX		AT %Q* :BOOL;

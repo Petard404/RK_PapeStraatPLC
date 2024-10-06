@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="fbVerwarming" Id="{373aaa5f-de6f-4177-8425-08ce9f094437}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK fbVerwarming
+VAR_INPUT
+	bDrukknop				:BOOL;
+	bThermostaat			:BOOL;
+	bVerlichting			:BOOL;
+	tTijdVoorStart			:TIME;
+END_VAR
+VAR_OUTPUT
+	bKlep_open				:BOOL;
+	bBrander				:BOOL;
+END_VAR
+VAR
+	bUitlooptijdKlep			:BOOL;
+	Uitlooptijd					:tof;
+	TijdsduurVoorverwarming		:tof;
+	Brander						:F_TRIG;
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[TijdsduurVoorverwarming(IN:= bDrukknop, PT:= tTijdVoorStart, Q=> , ET=> );
+
+Uitlooptijd(IN:= bUitlooptijdKlep, PT:= T#30S, Q=> , ET=> );
+
+IF Uitlooptijd.Q THEN
+	bKlep_open := TRUE;
+	ELSE
+	bKlep_open := FALSE;
+	END_IF
+
+IF (TijdsduurVoorverwarming.Q OR bVerlichting) AND bThermostaat THEN
+		bUitlooptijdKlep := TRUE;
+		bBrander := TRUE;
+		ELSE
+		bUitlooptijdKlep :=FALSE;
+		bBrander := FALSE;
+END_IF
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="fbVerwarming">
+      <LineId Id="9" Count="0" />
+      <LineId Id="66" Count="0" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="75" Count="2" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="28" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

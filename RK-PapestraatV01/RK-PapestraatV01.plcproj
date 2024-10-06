@@ -36,7 +36,13 @@
     <Compile Include="POUs\fbLightControl_ButtonAndDetect.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\fbVerwarming.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\MAIN.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\SturingVerwarming.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Visualization Manager.TcVMO">
