@@ -11,7 +11,7 @@ VAR_INPUT
 	bDetection			: BOOL;
 	bInhibit			:BOOL;
 	
-	tInhibitTime		:TIME := T#60s;
+	//tInhibitTime		:TIME := T#60s;
     tDeurOpenTime		:TIME := T#10m;
 END_VAR
 VAR_OUTPUT
@@ -20,9 +20,12 @@ VAR_OUTPUT
 END_VAR
 VAR
 	InputTrigger		: R_trig; 
-	TimerInhibit		: TOF; 
-	TimerDeurdetectie	: TOF;
+	DetectieTrigger		: R_trig; 
+	DeurTrigger			: R_trig; 
+	//TimerInhibit		: TOF; 
+	TimerDeurdetectie	: TON;
 	bInternLichtVarKnop : BOOL;
+	bOverneemDeurDetectie :BOOL;
 	
 END_VAR
 ]]></Declaration>
@@ -30,31 +33,47 @@ END_VAR
       <ST><![CDATA[// This is the first version, ignoring all debounce timers and other issues 
 // Base function is a to allow switching a light on and of and having a general reset and general on ( used for construcion)
 
+//Button detection
 InputTrigger(CLK :=  bButton);
 
+//rising edge detection used for the optical detection and deur detection
+DetectieTrigger(clk := bDetection);
+DeurTrigger(clk := bDeurDetectie);
+// button function
 IF InputTrigger.Q THEN
 	
+	IF bInternLichtVarKnop OR bOverneemDeurDetectie THEN
+		bOverneemDeurDetectie :=  FALSE;
+	END_IF
 	bInternLichtVarKnop := NOT(bInternLichtVarKnop);
 
 END_IF
 
 // Dit onderdeel triggert als de deur opent en blijft de ingestelde tijd lopen na het sleuiten
-TimerDeurdetectie(In := bDeurDetectie, PT:= tDeurOpenTime);
+
+IF DetectieTrigger.Q OR DeurTrigger.Q THEN 
+	bOverneemDeurDetectie := TRUE;
+END_IF
+
+TimerDeurdetectie(In := bOverneemDeurDetectie , PT:= tDeurOpenTime);
+
+
+IF TimerDeurdetectie.Q THEN
+	bOverneemDeurDetectie := FALSE;
+END_IF
 
 // Deze functie zorgt voor alles aan/Uit Functionaliteit
 IF bForceOff THEN
 	bInternLichtVarKnop := FALSE;
+	bOverneemDeurDetectie := FALSE;
 END_IF
 
 IF bForceOn THEN
 	bInternLichtVarKnop := TRUE;
 END_IF
 
-// Connection to the detector unit in combination with inhibitor logic
 
-TimerInhibit(IN:= bInhibit, PT:= tInhibitTime );
-
-bLight :=  bInternLichtVarKnop OR ( (bDetection OR TimerDeurdetectie.Q) AND NOT(TimerInhibit.Q)) ;
+bLight := (bInternLichtVarKnop OR  bOverneemDeurDetectie) ;
 
 
 
@@ -66,24 +85,35 @@ This could be a dedicated filter function linked to these functions as needed
     <LineIds Name="fbLightControl_ButtonAndDetect">
       <LineId Id="9" Count="0" />
       <LineId Id="17" Count="0" />
+      <LineId Id="186" Count="0" />
       <LineId Id="27" Count="0" />
       <LineId Id="32" Count="0" />
+      <LineId Id="187" Count="0" />
+      <LineId Id="183" Count="1" />
+      <LineId Id="188" Count="0" />
       <LineId Id="54" Count="0" />
-      <LineId Id="23" Count="2" />
+      <LineId Id="23" Count="1" />
+      <LineId Id="202" Count="2" />
+      <LineId Id="25" Count="0" />
       <LineId Id="45" Count="0" />
       <LineId Id="26" Count="0" />
       <LineId Id="157" Count="0" />
       <LineId Id="156" Count="0" />
+      <LineId Id="191" Count="0" />
+      <LineId Id="190" Count="0" />
+      <LineId Id="192" Count="1" />
+      <LineId Id="195" Count="0" />
       <LineId Id="154" Count="0" />
+      <LineId Id="197" Count="3" />
+      <LineId Id="196" Count="0" />
       <LineId Id="80" Count="0" />
       <LineId Id="55" Count="0" />
       <LineId Id="47" Count="0" />
-      <LineId Id="56" Count="1" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="201" Count="0" />
+      <LineId Id="57" Count="0" />
       <LineId Id="59" Count="2" />
       <LineId Id="58" Count="0" />
-      <LineId Id="122" Count="0" />
-      <LineId Id="120" Count="0" />
-      <LineId Id="125" Count="0" />
       <LineId Id="129" Count="0" />
       <LineId Id="126" Count="0" />
       <LineId Id="123" Count="0" />

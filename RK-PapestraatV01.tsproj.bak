@@ -20,7 +20,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{FD99DDA9-1C9E-45D8-BEC8-07C89C7C9A46}" Name="RK-PapestraatV01" PrjFilePath="RK-PapestraatV01\RK-PapestraatV01.plcproj" TmcFilePath="RK-PapestraatV01\RK-PapestraatV01.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="RK-PapestraatV01\RK-PapestraatV01.tmc" TmcHash="{DEE340EC-D47E-1CF1-7D9C-A7F19CE7FDC4}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="RK-PapestraatV01\RK-PapestraatV01.tmc" TmcHash="{D8E2BE49-4D15-A581-5539-E4BFFA2B814B}">
 					<Name>RK-PapestraatV01 Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
@@ -50,11 +50,6 @@
 						</Var>
 						<Var>
 							<Name>SturingVerwarming.bThermostaatBureau</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>SturingVerwarming.BVerlichtingGrootTest</Name>
-							<Comment><![CDATA[ voor testdoeleinden, wordt vervangen door de uitgang naar de verlichting.]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
@@ -259,19 +254,24 @@
 							<Comment><![CDATA[ placeholder values]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
-						<Var>
-							<Name>SturingVerwarming.bVerlichtingKleinTest</Name>
-							<Comment><![CDATA[ voor testdoeleinden, wordt vervangen door de uitgang naar de verlichting]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>SturingVerwarming.bVerlichtingBureauTest</Name>
-							<Comment><![CDATA[ voor testdoeleinden, wordt vervangen door de uitgang naar de verlichting]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
 					</Vars>
 					<Vars VarGrpType="2" AreaNo="1">
 						<Name>PlcTask Outputs</Name>
+						<Var>
+							<Name>SturingVerwarming.bKlepKleineZaalLamp</Name>
+							<Comment><![CDATA[Uitgangen naar lamp in hoofdkast]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>SturingVerwarming.bKlepBureauLamp</Name>
+							<Comment><![CDATA[Uitgangen naar lamp in hoofdkast]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>SturingVerwarming.bKlepGroteZaalLamp</Name>
+							<Comment><![CDATA[Uitgangen naar lamp in hoofdkast]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
 						<Var>
 							<Name>SturingVerwarming.bKlepGroteZaal</Name>
 							<Comment><![CDATA[Uitgangen naar relais in kastje aan brander]]></Comment>
@@ -949,9 +949,9 @@
 				<Link VarA="PlcTask Inputs^SturingVerwarming.bDrukknopKleineZaal" VarB="Channel 3^Input"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 2 (EtherCAT)^Term 8 (EK1200)^Term 14 (EL2008)">
-				<Link VarA="PlcTask Outputs^SturingVerwarming.bKlepBureau" VarB="Channel 5^Output"/>
-				<Link VarA="PlcTask Outputs^SturingVerwarming.bKlepGroteZaal" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^SturingVerwarming.bKlepKleineZaal" VarB="Channel 3^Output"/>
+				<Link VarA="PlcTask Outputs^SturingVerwarming.bKlepBureauLamp" VarB="Channel 5^Output"/>
+				<Link VarA="PlcTask Outputs^SturingVerwarming.bKlepGroteZaalLamp" VarB="Channel 1^Output"/>
+				<Link VarA="PlcTask Outputs^SturingVerwarming.bKlepKleineZaalLamp" VarB="Channel 3^Output"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 2 (EtherCAT)^Term 8 (EK1200)^Term 7 (EL1809)">
 				<Link VarA="PlcTask Inputs^GVL.I_Input01" VarB="Channel 2^Input"/>

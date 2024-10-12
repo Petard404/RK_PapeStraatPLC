@@ -11,53 +11,58 @@ END_VAR
 VAR_OUTPUT
 	bKlep_open				:BOOL;
 	bBrander				:BOOL;
+	bLamp					:BOOL;
 END_VAR
 VAR
 	bUitlooptijdKlep			:BOOL;
-	Uitlooptijd					:tof;
-	TijdsduurVoorverwarming		:tof;
+	Uitlooptijd					:TOF;
+	TijdsduurVoorverwarming		:ton;
 	Brander						:F_TRIG;
+	TrigDrukknop				:R_TRIG;
+	
+	bOverneemContactDrukknop	:BOOL;
 	
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[TijdsduurVoorverwarming(IN:= bDrukknop, PT:= tTijdVoorStart, Q=> , ET=> );
+      <ST><![CDATA[TrigDrukknop(CLK := bDrukknop);
+
+//volgarde deze 2 if statements is belangrijk voor de logica (anders directe reset)
+IF (TrigDrukknop.Q AND bOverneemContactDrukknop) OR TijdsduurVoorverwarming.Q THEN
+	bOverneemContactDrukknop := FALSE;
+ELSIF TrigDrukknop.Q THEN
+	bOverneemContactDrukknop := TRUE;
+END_IF
+
+
+TijdsduurVoorverwarming(IN:= bOverneemContactDrukknop, PT:= tTijdVoorStart, Q=> , ET=> );
 
 Uitlooptijd(IN:= bUitlooptijdKlep, PT:= T#30S, Q=> , ET=> );
 
 IF Uitlooptijd.Q THEN
 	bKlep_open := TRUE;
-	ELSE
+ELSE
 	bKlep_open := FALSE;
 	END_IF
 
-IF (TijdsduurVoorverwarming.Q OR bVerlichting) AND bThermostaat THEN
+IF (bOverneemContactDrukknop OR bVerlichting) AND bThermostaat THEN
 		bUitlooptijdKlep := TRUE;
 		bBrander := TRUE;
-		ELSE
+	ELSE
 		bUitlooptijdKlep :=FALSE;
 		bBrander := FALSE;
 END_IF
 
-]]></ST>
+bLamp := bOverneemContactDrukknop;]]></ST>
     </Implementation>
     <LineIds Name="fbVerwarming">
-      <LineId Id="9" Count="0" />
-      <LineId Id="66" Count="0" />
-      <LineId Id="65" Count="0" />
-      <LineId Id="72" Count="0" />
-      <LineId Id="71" Count="0" />
-      <LineId Id="73" Count="0" />
-      <LineId Id="75" Count="2" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="17" Count="0" />
-      <LineId Id="21" Count="0" />
-      <LineId Id="23" Count="0" />
-      <LineId Id="30" Count="0" />
-      <LineId Id="70" Count="0" />
-      <LineId Id="31" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="29" Count="0" />
+      <LineId Id="153" Count="0" />
+      <LineId Id="209" Count="0" />
+      <LineId Id="154" Count="0" />
+      <LineId Id="206" Count="1" />
+      <LineId Id="210" Count="1" />
+      <LineId Id="155" Count="0" />
+      <LineId Id="164" Count="19" />
       <LineId Id="28" Count="0" />
     </LineIds>
   </POU>

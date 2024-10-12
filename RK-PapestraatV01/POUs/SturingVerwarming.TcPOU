@@ -15,11 +15,16 @@ VAR
 	bThermostaatKleineZaal		AT %I*		:BOOL;
 	bThermostaatBureau			AT %I*		:BOOL;
 	
-	bKlepGroteZaal				AT %Q*		:BOOL; //Uitgangen naar relais in kastje aan brander
-	bKlepKleineZaal				AT %Q*		:BOOL; //Uitgangen naar relais in kastje aan brander
+	bKlepGroteZaal				AT %Q*		:BOOL; 	//Uitgangen naar relais in kastje aan brander
+	bKlepKleineZaal				AT %Q*		:BOOL; 	//Uitgangen naar relais in kastje aan brander
 	bKlepBureau					AT %Q*		:BOOL;	//Uitgangen naar relais in kastje aan brander
-	bBranderAan					AT %Q*		:BOOL; //Uitgangen naar relais in kastje aan brander
+	bBranderAan					AT %Q*		:BOOL; 	//Uitgangen naar relais in kastje aan brander
+	bKlepKleineZaalLamp			AT %Q*		:BOOL; 	//Uitgangen naar lamp in hoofdkast
+	bKlepBureauLamp				AT %Q*		:BOOL;	//Uitgangen naar lamp in hoofdkast
+	bKlepGroteZaalLamp				AT %Q*		:BOOL; 	//Uitgangen naar lamp in hoofdkast
 	
+	bLichtReactief							:BOOL := FALSE;
+	tLoopTijdVerwarming 					:TIME := T#4H; 
 	
 	// tTijdVoorStart is de tijd dat de verwarming aangaat nadat iemand op de knop druk, die op de kast voorzien is.
 	
@@ -115,7 +120,7 @@ END_VAR
                               <v n="LValue">false</v>
                               <v n="Boolean">false</v>
                               <v n="IsInstance">true</v>
-                              <v n="Id">18L</v>
+                              <v n="Id">215L</v>
                             </o>
                             <o n="OutputItems" t="OutputItemList">
                               <l2 n="OutputItems" cet="Operand">
@@ -136,6 +141,22 @@ END_VAR
                                   <v n="Id">78L</v>
                                 </o>
                                 <n />
+                                <o>
+                                  <v n="Operand">"bKlepGroteZaalLamp"</v>
+                                  <v n="Type">"BOOL"</v>
+                                  <v n="Comment">""</v>
+                                  <v n="SymbolComment">""</v>
+                                  <v n="Address">""</v>
+                                  <o n="Flags" t="Flags">
+                                    <v n="Flags">0</v>
+                                    <v n="Fixed">false</v>
+                                    <v n="Extensible">false</v>
+                                  </o>
+                                  <v n="LValue">true</v>
+                                  <v n="Boolean">false</v>
+                                  <v n="IsInstance">false</v>
+                                  <v n="Id">217L</v>
+                                </o>
                               </l2>
                             </o>
                             <o n="Flags" t="Flags">
@@ -144,8 +165,8 @@ END_VAR
                               <v n="Extensible">false</v>
                             </o>
                             <n n="InputFlags" />
-                            <l2 n="InputItems" cet="BoxTreeOperand">
-                              <o>
+                            <l2 n="InputItems">
+                              <o t="BoxTreeOperand">
                                 <o n="Operand" t="Operand">
                                   <v n="Operand">"bDrukknopGroteZaal"</v>
                                   <v n="Type">"BOOL"</v>
@@ -164,7 +185,7 @@ END_VAR
                                 </o>
                                 <v n="Id">8L</v>
                               </o>
-                              <o>
+                              <o t="BoxTreeOperand">
                                 <o n="Operand" t="Operand">
                                   <v n="Operand">"bThermostaatGroteZaal"</v>
                                   <v n="Type">"BOOL"</v>
@@ -183,10 +204,11 @@ END_VAR
                                 </o>
                                 <v n="Id">10L</v>
                               </o>
-                              <o>
-                                <o n="Operand" t="Operand">
-                                  <v n="Operand">"GVL.LesruimteLichtAan"</v>
-                                  <v n="Type">"BOOL"</v>
+                              <o t="BoxTreeBox">
+                                <v n="BoxType">"AND"</v>
+                                <o n="Instance" t="Operand">
+                                  <n n="Operand" />
+                                  <v n="Type">""</v>
                                   <v n="Comment">""</v>
                                   <v n="SymbolComment">""</v>
                                   <v n="Address">""</v>
@@ -197,14 +219,83 @@ END_VAR
                                   </o>
                                   <v n="LValue">false</v>
                                   <v n="Boolean">false</v>
-                                  <v n="IsInstance">false</v>
-                                  <v n="Id">22L</v>
+                                  <v n="IsInstance">true</v>
+                                  <v n="Id">163L</v>
                                 </o>
-                                <v n="Id">21L</v>
+                                <o n="OutputItems" t="OutputItemList">
+                                  <l2 n="OutputItems">
+                                    <n />
+                                  </l2>
+                                </o>
+                                <o n="Flags" t="Flags">
+                                  <v n="Flags">0</v>
+                                  <v n="Fixed">false</v>
+                                  <v n="Extensible">false</v>
+                                </o>
+                                <n n="InputFlags" />
+                                <l2 n="InputItems" cet="BoxTreeOperand">
+                                  <o>
+                                    <o n="Operand" t="Operand">
+                                      <v n="Operand">"GVL.LesruimteLichtAan"</v>
+                                      <v n="Type">"BOOL"</v>
+                                      <v n="Comment">""</v>
+                                      <v n="SymbolComment">""</v>
+                                      <v n="Address">""</v>
+                                      <o n="Flags" t="Flags">
+                                        <v n="Flags">0</v>
+                                        <v n="Fixed">false</v>
+                                        <v n="Extensible">false</v>
+                                      </o>
+                                      <v n="LValue">false</v>
+                                      <v n="Boolean">false</v>
+                                      <v n="IsInstance">false</v>
+                                      <v n="Id">22L</v>
+                                    </o>
+                                    <v n="Id">21L</v>
+                                  </o>
+                                  <o>
+                                    <o n="Operand" t="Operand">
+                                      <v n="Operand">"bLichtReactief"</v>
+                                      <v n="Type">"BOOL"</v>
+                                      <v n="Comment">""</v>
+                                      <v n="SymbolComment">""</v>
+                                      <v n="Address">""</v>
+                                      <o n="Flags" t="Flags">
+                                        <v n="Flags">0</v>
+                                        <v n="Fixed">false</v>
+                                        <v n="Extensible">false</v>
+                                      </o>
+                                      <v n="LValue">false</v>
+                                      <v n="Boolean">false</v>
+                                      <v n="IsInstance">false</v>
+                                      <v n="Id">166L</v>
+                                    </o>
+                                    <v n="Id">165L</v>
+                                  </o>
+                                </l2>
+                                <o n="InputParam" t="ParamList">
+                                  <l2 n="Names" />
+                                  <l2 n="Types" />
+                                </o>
+                                <o n="OutputParam" t="ParamList">
+                                  <l2 n="Names" cet="String">
+                                    <v></v>
+                                  </l2>
+                                  <l2 n="Types" cet="String">
+                                    <v>BOOL</v>
+                                  </l2>
+                                </o>
+                                <v n="CallType" t="Operator">And</v>
+                                <v n="EN">false</v>
+                                <v n="ENO">false</v>
+                                <n n="STSnippet" />
+                                <v n="ContainsExtensibleInputs">false</v>
+                                <v n="ProvidesSTSnippet">false</v>
+                                <v n="Id">164L</v>
                               </o>
-                              <o>
+                              <o t="BoxTreeOperand">
                                 <o n="Operand" t="Operand">
-                                  <v n="Operand">"t#60m"</v>
+                                  <v n="Operand">"tLoopTijdVerwarming"</v>
                                   <v n="Type">"TIME"</v>
                                   <v n="Comment">""</v>
                                   <v n="SymbolComment">""</v>
@@ -240,8 +331,10 @@ END_VAR
                               <l2 n="Names" cet="String">
                                 <v>bKlep_open</v>
                                 <v>bBrander</v>
+                                <v>bLamp</v>
                               </l2>
                               <l2 n="Types" cet="String">
+                                <v>BOOL</v>
                                 <v>BOOL</v>
                                 <v>BOOL</v>
                               </l2>
@@ -252,7 +345,7 @@ END_VAR
                             <n n="STSnippet" />
                             <v n="ContainsExtensibleInputs">false</v>
                             <v n="ProvidesSTSnippet">false</v>
-                            <v n="Id">19L</v>
+                            <v n="Id">216L</v>
                           </o>
                           <o>
                             <v n="BoxType">"fbVerwarming"</v>
@@ -270,7 +363,7 @@ END_VAR
                               <v n="LValue">false</v>
                               <v n="Boolean">false</v>
                               <v n="IsInstance">true</v>
-                              <v n="Id">118L</v>
+                              <v n="Id">218L</v>
                             </o>
                             <o n="OutputItems" t="OutputItemList">
                               <l2 n="OutputItems" cet="Operand">
@@ -291,6 +384,22 @@ END_VAR
                                   <v n="Id">120L</v>
                                 </o>
                                 <n />
+                                <o>
+                                  <v n="Operand">"bKlepKleineZaalLamp"</v>
+                                  <v n="Type">"BOOL"</v>
+                                  <v n="Comment">""</v>
+                                  <v n="SymbolComment">""</v>
+                                  <v n="Address">""</v>
+                                  <o n="Flags" t="Flags">
+                                    <v n="Flags">0</v>
+                                    <v n="Fixed">false</v>
+                                    <v n="Extensible">false</v>
+                                  </o>
+                                  <v n="LValue">true</v>
+                                  <v n="Boolean">false</v>
+                                  <v n="IsInstance">false</v>
+                                  <v n="Id">220L</v>
+                                </o>
                               </l2>
                             </o>
                             <o n="Flags" t="Flags">
@@ -299,8 +408,8 @@ END_VAR
                               <v n="Extensible">false</v>
                             </o>
                             <n n="InputFlags" />
-                            <l2 n="InputItems" cet="BoxTreeOperand">
-                              <o>
+                            <l2 n="InputItems">
+                              <o t="BoxTreeOperand">
                                 <o n="Operand" t="Operand">
                                   <v n="Operand">"bDrukknopKleineZaal"</v>
                                   <v n="Type">"BOOL"</v>
@@ -319,7 +428,7 @@ END_VAR
                                 </o>
                                 <v n="Id">76L</v>
                               </o>
-                              <o>
+                              <o t="BoxTreeOperand">
                                 <o n="Operand" t="Operand">
                                   <v n="Operand">"bThermostaatKleineZaal"</v>
                                   <v n="Type">"BOOL"</v>
@@ -338,10 +447,11 @@ END_VAR
                                 </o>
                                 <v n="Id">116L</v>
                               </o>
-                              <o>
-                                <o n="Operand" t="Operand">
-                                  <v n="Operand">"GVL.Vergaderzaal"</v>
-                                  <v n="Type">"BOOL"</v>
+                              <o t="BoxTreeBox">
+                                <v n="BoxType">"AND"</v>
+                                <o n="Instance" t="Operand">
+                                  <n n="Operand" />
+                                  <v n="Type">""</v>
                                   <v n="Comment">""</v>
                                   <v n="SymbolComment">""</v>
                                   <v n="Address">""</v>
@@ -352,14 +462,83 @@ END_VAR
                                   </o>
                                   <v n="LValue">false</v>
                                   <v n="Boolean">false</v>
-                                  <v n="IsInstance">false</v>
-                                  <v n="Id">122L</v>
+                                  <v n="IsInstance">true</v>
+                                  <v n="Id">167L</v>
                                 </o>
-                                <v n="Id">121L</v>
+                                <o n="OutputItems" t="OutputItemList">
+                                  <l2 n="OutputItems">
+                                    <n />
+                                  </l2>
+                                </o>
+                                <o n="Flags" t="Flags">
+                                  <v n="Flags">0</v>
+                                  <v n="Fixed">false</v>
+                                  <v n="Extensible">false</v>
+                                </o>
+                                <n n="InputFlags" />
+                                <l2 n="InputItems" cet="BoxTreeOperand">
+                                  <o>
+                                    <o n="Operand" t="Operand">
+                                      <v n="Operand">"GVL.Vergaderzaal"</v>
+                                      <v n="Type">"BOOL"</v>
+                                      <v n="Comment">""</v>
+                                      <v n="SymbolComment">""</v>
+                                      <v n="Address">""</v>
+                                      <o n="Flags" t="Flags">
+                                        <v n="Flags">0</v>
+                                        <v n="Fixed">false</v>
+                                        <v n="Extensible">false</v>
+                                      </o>
+                                      <v n="LValue">false</v>
+                                      <v n="Boolean">false</v>
+                                      <v n="IsInstance">false</v>
+                                      <v n="Id">122L</v>
+                                    </o>
+                                    <v n="Id">121L</v>
+                                  </o>
+                                  <o>
+                                    <o n="Operand" t="Operand">
+                                      <v n="Operand">"bLichtReactief"</v>
+                                      <v n="Type">"BOOL"</v>
+                                      <v n="Comment">""</v>
+                                      <v n="SymbolComment">""</v>
+                                      <v n="Address">""</v>
+                                      <o n="Flags" t="Flags">
+                                        <v n="Flags">0</v>
+                                        <v n="Fixed">false</v>
+                                        <v n="Extensible">false</v>
+                                      </o>
+                                      <v n="LValue">false</v>
+                                      <v n="Boolean">false</v>
+                                      <v n="IsInstance">false</v>
+                                      <v n="Id">170L</v>
+                                    </o>
+                                    <v n="Id">169L</v>
+                                  </o>
+                                </l2>
+                                <o n="InputParam" t="ParamList">
+                                  <l2 n="Names" />
+                                  <l2 n="Types" />
+                                </o>
+                                <o n="OutputParam" t="ParamList">
+                                  <l2 n="Names" cet="String">
+                                    <v></v>
+                                  </l2>
+                                  <l2 n="Types" cet="String">
+                                    <v>BOOL</v>
+                                  </l2>
+                                </o>
+                                <v n="CallType" t="Operator">And</v>
+                                <v n="EN">false</v>
+                                <v n="ENO">false</v>
+                                <n n="STSnippet" />
+                                <v n="ContainsExtensibleInputs">false</v>
+                                <v n="ProvidesSTSnippet">false</v>
+                                <v n="Id">168L</v>
                               </o>
-                              <o>
+                              <o t="BoxTreeOperand">
                                 <o n="Operand" t="Operand">
-                                  <v n="Operand">"t#60m"</v>
+                                  <v n="Operand">"tLoopTijdVerwarming"</v>
                                   <v n="Type">"TIME"</v>
                                   <v n="Comment">""</v>
                                   <v n="SymbolComment">""</v>
@@ -395,8 +574,10 @@ END_VAR
                               <l2 n="Names" cet="String">
                                 <v>bKlep_open</v>
                                 <v>bBrander</v>
+                                <v>bLamp</v>
                               </l2>
                               <l2 n="Types" cet="String">
+                                <v>BOOL</v>
                                 <v>BOOL</v>
                                 <v>BOOL</v>
                               </l2>
@@ -407,7 +588,7 @@ END_VAR
                             <n n="STSnippet" />
                             <v n="ContainsExtensibleInputs">false</v>
                             <v n="ProvidesSTSnippet">false</v>
-                            <v n="Id">119L</v>
+                            <v n="Id">219L</v>
                           </o>
                           <o>
                             <v n="BoxType">"fbVerwarming"</v>
@@ -425,7 +606,7 @@ END_VAR
                               <v n="LValue">false</v>
                               <v n="Boolean">false</v>
                               <v n="IsInstance">true</v>
-                              <v n="Id">131L</v>
+                              <v n="Id">221L</v>
                             </o>
                             <o n="OutputItems" t="OutputItemList">
                               <l2 n="OutputItems" cet="Operand">
@@ -446,6 +627,22 @@ END_VAR
                                   <v n="Id">133L</v>
                                 </o>
                                 <n />
+                                <o>
+                                  <v n="Operand">"bKlepBureauLamp"</v>
+                                  <v n="Type">"BOOL"</v>
+                                  <v n="Comment">""</v>
+                                  <v n="SymbolComment">""</v>
+                                  <v n="Address">""</v>
+                                  <o n="Flags" t="Flags">
+                                    <v n="Flags">0</v>
+                                    <v n="Fixed">false</v>
+                                    <v n="Extensible">false</v>
+                                  </o>
+                                  <v n="LValue">true</v>
+                                  <v n="Boolean">false</v>
+                                  <v n="IsInstance">false</v>
+                                  <v n="Id">223L</v>
+                                </o>
                               </l2>
                             </o>
                             <o n="Flags" t="Flags">
@@ -454,8 +651,8 @@ END_VAR
                               <v n="Extensible">false</v>
                             </o>
                             <n n="InputFlags" />
-                            <l2 n="InputItems" cet="BoxTreeOperand">
-                              <o>
+                            <l2 n="InputItems">
+                              <o t="BoxTreeOperand">
                                 <o n="Operand" t="Operand">
                                   <v n="Operand">"bDrukknopBureau"</v>
                                   <v n="Type">"BOOL"</v>
@@ -474,7 +671,7 @@ END_VAR
                                 </o>
                                 <v n="Id">125L</v>
                               </o>
-                              <o>
+                              <o t="BoxTreeOperand">
                                 <o n="Operand" t="Operand">
                                   <v n="Operand">"bThermostaatBureau"</v>
                                   <v n="Type">"BOOL"</v>
@@ -493,10 +690,11 @@ END_VAR
                                 </o>
                                 <v n="Id">129L</v>
                               </o>
-                              <o>
-                                <o n="Operand" t="Operand">
-                                  <v n="Operand">"GVL.BureauLichtAan"</v>
-                                  <v n="Type">"BOOL"</v>
+                              <o t="BoxTreeBox">
+                                <v n="BoxType">"AND"</v>
+                                <o n="Instance" t="Operand">
+                                  <n n="Operand" />
+                                  <v n="Type">""</v>
                                   <v n="Comment">""</v>
                                   <v n="SymbolComment">""</v>
                                   <v n="Address">""</v>
@@ -507,14 +705,83 @@ END_VAR
                                   </o>
                                   <v n="LValue">false</v>
                                   <v n="Boolean">false</v>
-                                  <v n="IsInstance">false</v>
-                                  <v n="Id">135L</v>
+                                  <v n="IsInstance">true</v>
+                                  <v n="Id">171L</v>
                                 </o>
-                                <v n="Id">134L</v>
+                                <o n="OutputItems" t="OutputItemList">
+                                  <l2 n="OutputItems">
+                                    <n />
+                                  </l2>
+                                </o>
+                                <o n="Flags" t="Flags">
+                                  <v n="Flags">0</v>
+                                  <v n="Fixed">false</v>
+                                  <v n="Extensible">false</v>
+                                </o>
+                                <n n="InputFlags" />
+                                <l2 n="InputItems" cet="BoxTreeOperand">
+                                  <o>
+                                    <o n="Operand" t="Operand">
+                                      <v n="Operand">"GVL.BureauLichtAan"</v>
+                                      <v n="Type">"BOOL"</v>
+                                      <v n="Comment">""</v>
+                                      <v n="SymbolComment">""</v>
+                                      <v n="Address">""</v>
+                                      <o n="Flags" t="Flags">
+                                        <v n="Flags">0</v>
+                                        <v n="Fixed">false</v>
+                                        <v n="Extensible">false</v>
+                                      </o>
+                                      <v n="LValue">false</v>
+                                      <v n="Boolean">false</v>
+                                      <v n="IsInstance">false</v>
+                                      <v n="Id">135L</v>
+                                    </o>
+                                    <v n="Id">134L</v>
+                                  </o>
+                                  <o>
+                                    <o n="Operand" t="Operand">
+                                      <v n="Operand">"bLichtReactief"</v>
+                                      <v n="Type">"BOOL"</v>
+                                      <v n="Comment">""</v>
+                                      <v n="SymbolComment">""</v>
+                                      <v n="Address">""</v>
+                                      <o n="Flags" t="Flags">
+                                        <v n="Flags">0</v>
+                                        <v n="Fixed">false</v>
+                                        <v n="Extensible">false</v>
+                                      </o>
+                                      <v n="LValue">false</v>
+                                      <v n="Boolean">false</v>
+                                      <v n="IsInstance">false</v>
+                                      <v n="Id">174L</v>
+                                    </o>
+                                    <v n="Id">173L</v>
+                                  </o>
+                                </l2>
+                                <o n="InputParam" t="ParamList">
+                                  <l2 n="Names" />
+                                  <l2 n="Types" />
+                                </o>
+                                <o n="OutputParam" t="ParamList">
+                                  <l2 n="Names" cet="String">
+                                    <v></v>
+                                  </l2>
+                                  <l2 n="Types" cet="String">
+                                    <v>BOOL</v>
+                                  </l2>
+                                </o>
+                                <v n="CallType" t="Operator">And</v>
+                                <v n="EN">false</v>
+                                <v n="ENO">false</v>
+                                <n n="STSnippet" />
+                                <v n="ContainsExtensibleInputs">false</v>
+                                <v n="ProvidesSTSnippet">false</v>
+                                <v n="Id">172L</v>
                               </o>
-                              <o>
+                              <o t="BoxTreeOperand">
                                 <o n="Operand" t="Operand">
-                                  <v n="Operand">"t#60m"</v>
+                                  <v n="Operand">"tLoopTijdVerwarming"</v>
                                   <v n="Type">"TIME"</v>
                                   <v n="Comment">""</v>
                                   <v n="SymbolComment">""</v>
@@ -550,8 +817,10 @@ END_VAR
                               <l2 n="Names" cet="String">
                                 <v>bKlep_open</v>
                                 <v>bBrander</v>
+                                <v>bLamp</v>
                               </l2>
                               <l2 n="Types" cet="String">
+                                <v>BOOL</v>
                                 <v>BOOL</v>
                                 <v>BOOL</v>
                               </l2>
@@ -562,7 +831,7 @@ END_VAR
                             <n n="STSnippet" />
                             <v n="ContainsExtensibleInputs">false</v>
                             <v n="ProvidesSTSnippet">false</v>
-                            <v n="Id">132L</v>
+                            <v n="Id">222L</v>
                           </o>
                         </l2>
                         <o n="InputParam" t="ParamList">

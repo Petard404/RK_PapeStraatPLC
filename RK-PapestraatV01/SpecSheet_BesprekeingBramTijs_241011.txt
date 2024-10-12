@@ -1,0 +1,18 @@
+verwarming:
+
+Apart afleggen van de verwarming. met knop. 
+Vergeettimer toevoegen regio 4
+
+Licht:
+- Timers op 10 min 
+Ingang detectie als als flank inlezen
+Zelfde detector bijhangen bij 
+Tijs wil een reedcontact hangen. => zijn probleem 
+
+Lichten gang. 
+
+Gang meenemen bij onderdrukking van alles uit.
+
+Dimmen 
+alles samen:
+
