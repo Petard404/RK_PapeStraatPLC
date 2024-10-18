@@ -55,7 +55,7 @@ IF DetectieTrigger.Q OR DeurTrigger.Q THEN
 	bOverneemDeurDetectie := TRUE;
 END_IF
 
-TimerDeurdetectie(In := bOverneemDeurDetectie , PT:= tDeurOpenTime);
+TimerDeurdetectie(In := bOverneemDeurDetectie AND(NOT(DetectieTrigger.Q )), PT:= tDeurOpenTime);
 
 
 IF TimerDeurdetectie.Q THEN

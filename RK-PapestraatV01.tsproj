@@ -20,7 +20,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{FD99DDA9-1C9E-45D8-BEC8-07C89C7C9A46}" Name="RK-PapestraatV01" PrjFilePath="RK-PapestraatV01\RK-PapestraatV01.plcproj" TmcFilePath="RK-PapestraatV01\RK-PapestraatV01.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="RK-PapestraatV01\RK-PapestraatV01.tmc" TmcHash="{B6052307-BFF9-5BE0-DFE5-3E8595EFEA0D}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="RK-PapestraatV01\RK-PapestraatV01.tmc" TmcHash="{D13060B9-021B-857E-44D4-1AE8E1EA92E7}">
 					<Name>RK-PapestraatV01 Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
